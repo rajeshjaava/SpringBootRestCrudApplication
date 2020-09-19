@@ -1,4 +1,7 @@
 package com.rajesh.springboot;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,8 +12,11 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.rajesh.springboot.model.Employee;
 
 
 @RunWith(SpringRunner.class)
@@ -25,7 +31,7 @@ public class GetEmployeeTestSuccess {
 	HttpHeaders headers = new HttpHeaders();
 
 	@Test
-	public void testRetrieveStudentCourse() throws JSONException {
+	public void testGetEmployeeWithInputRequestId() throws JSONException {
 
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
@@ -42,7 +48,20 @@ public class GetEmployeeTestSuccess {
 
 		JSONAssert.assertEquals(expected, response.getBody(), false);
 	}
-
+	
+	@Test
+	public void createEmployeeTest() {
+		Employee emp=new Employee();
+		emp.setName("Ravi");
+		emp.setAddress("Vizag");
+		emp.setSalary("100000");
+		HttpEntity<Employee> entity=new HttpEntity<Employee>(emp,headers);
+		ResponseEntity<String> response=restTemplate.
+				exchange(createURLWithPort("/employee"),
+						HttpMethod.POST, entity, String.class);
+		HttpStatus responseCode=response.getStatusCode();
+		assertEquals(HttpStatus.CREATED,responseCode);
+	}
 	private String createURLWithPort(String uri) {
 		return "http://localhost:" + port + uri;
 	}
