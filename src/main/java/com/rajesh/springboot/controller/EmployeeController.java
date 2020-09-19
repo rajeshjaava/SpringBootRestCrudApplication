@@ -39,7 +39,7 @@ public class EmployeeController {
 	  }
 	@GetMapping("/employee/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	  public Optional<Employee> getById(@PathVariable(value = "id") Long empId) {
+	  public Employee getById(@PathVariable(value = "id") Long empId) {
 	    return empService.findById(empId);
 	  }
 	@PostMapping("/employee")

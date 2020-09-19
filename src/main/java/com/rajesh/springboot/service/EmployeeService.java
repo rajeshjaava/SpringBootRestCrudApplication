@@ -29,8 +29,9 @@ public class EmployeeService {
 	public Iterable<Employee> findEmployees(){
 		return empDao.findAll();
 	}
-	public Optional<Employee> findById(Long id) {
-		 return empDao.findById(id);
+	public Employee findById(Long id) {
+		 return empDao.findById(id)  
+				 .orElseThrow(() -> new ResourceNotFoundException("Employee", "id", id));
 	}
 	
 	public Employee updateEmployee(Long id,Employee emp) {
