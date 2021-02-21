@@ -3,10 +3,8 @@
  */
 package com.rajesh.springboot.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.rajesh.springboot.dao.EmployeeDao;
@@ -25,8 +23,18 @@ public class EmployeeService {
 	public Employee save(Employee e) {
 		return empDao.save(e);
 	}
-	
+	@Cacheable("employee")
 	public Iterable<Employee> findEmployees(){
+		   try
+	        {
+	            System.out.println("Going to sleep for 5 Secs.. to simulate backend call.");
+	            Thread.sleep(1000*5);
+	        } 
+	        catch (InterruptedException e) 
+	        {
+	            e.printStackTrace();
+	        }
+	 
 		return empDao.findAll();
 	}
 	public Employee findById(Long id) {
